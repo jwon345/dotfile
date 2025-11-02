@@ -1,0 +1,62 @@
+" --- Basics ---
+set nocompatible
+set encoding=utf-8
+syntax on
+filetype plugin indent on
+
+" --- UI ---
+set number
+set relativenumber
+set cursorline
+set signcolumn=yes
+set scrolloff=5
+set laststatus=2
+set title
+
+" Keep VSCode happy (ensure numbers after embed)
+if exists('g:vscode')
+  autocmd VimEnter * set number relativenumber
+endif
+
+" --- Editing ---
+set tabstop=2 shiftwidth=2 expandtab
+set smartindent autoindent
+set backspace=indent,eol,start
+
+" --- Search ---
+set incsearch hlsearch
+set ignorecase smartcase
+
+" --- Clipboard/Mouse ---
+set mouse=a
+set clipboard=unnamedplus
+
+" --- Undo/Backup ---
+set undofile
+set noswapfile nobackup
+
+" --- QoL mappings & autocmds ---
+" 1) Clear search highlights on Escape
+nnoremap <silent> <Esc> :nohlsearch<CR><Esc>
+
+" 2) Highlight yanked text briefly
+augroup YankHighlight
+  autocmd!
+  if has('nvim')
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({timeout=200})
+  endif
+augroup END
+
+set cursorline
+set cursorlineopt=number
+
+" 3) Keep your last yank when deleting/pasting over multiple lines
+"    - <leader>d deletes to black hole (won't clobber your yank)
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+"    - Visual paste that preserves the unnamed register
+xnoremap p "_dP
+
+" Keep cursor centered when scrolling
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
