@@ -1,0 +1,102 @@
+;; kanata - Windows version (fixed, no fn, no repeats)
+
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  ` 1 2 3 4 5 6 7 8 9 0 - = bspc
+  tab q w e r t y u i o p [ ] \
+  caps a s d f g h j k l ; ' ret
+  lsft z x c v b n m , . / rsft
+  lctl lalt lmet spc rmet ralt
+)
+
+(defvar
+  tap-time 150
+  hold-time 200
+)
+
+(defvar
+  sym (layer-while-held symbol)
+  mouseHold (layer-while-held mouse)
+  mouseHold2 (layer-while-held mouse2)
+)
+
+(defalias
+  ;; dual-role and swaps
+  cap (tap-hold $tap-time $hold-time esc esc)
+  xx (tap-hold $tap-time $hold-time x $mouseHold)
+  lmet lalt
+  lalt lmet
+  lctl lctl
+
+  ;; home-row mods
+  z (tap-hold $tap-time $hold-time z $sym)
+  a (tap-hold $tap-time $hold-time a lctl)
+  s (tap-hold $tap-time $hold-time s lalt)
+  d (tap-hold $tap-time $hold-time d lmet)
+  f (tap-hold $tap-time $hold-time f lsft)
+  g g
+  h h
+  j (tap-hold $tap-time $hold-time j rsft)
+  k (tap-hold $tap-time $hold-time k rmet) ;;on macos swap this with ctrl.
+  l (tap-hold $tap-time $hold-time l ralt)
+  ; (tap-hold $tap-time $hold-time ; rctl)
+
+)
+
+(defalias
+  ms↑ (movemouse-accel-up 4 500 1 4)
+  ms← (movemouse-accel-left 4 500 1 4)
+  ms↓ (movemouse-accel-down 4 500 1 4)
+  ms→ (movemouse-accel-right 4 500 1 4)
+
+  Ams↑ (movemouse-up 2 4)
+  Ams← (movemouse-left 2 4)
+  Ams↓ (movemouse-down 2 4)
+  Ams→ (movemouse-right 2 4)
+
+  mll mltp
+  mrr mrtp
+)
+
+(deflayer base
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  @cap @a @s @d @f @g @h @j @k @l @; _ _
+  _ @z @xx _ _ _ _ _ _ _ _ _
+  @lctl @lalt @lmet _ _ _
+)
+
+(deflayer symbol
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ S-9 S-0 S-0 _ _ _
+  caps S-9 S-0 d f g S-- - [ ] _ _
+  _ z _ _ _ _ _ _ _ S-[ S-] _ _
+  lctl lalt lmet _ _ _
+)
+
+(deflayer numbers
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  caps S-9 S-0 d f g h j k l ; _ _
+  _ z _ _ _ _ _ _ _ _ _ _
+  lctl lalt lmet _ _ _
+)
+
+(deflayer mouse
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ @ms↑ _ _ _ _ _
+  _ _ _ @mll @mrr _ _ @ms← @ms↓ @ms→ _ _ _
+  $mouseHold2 _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _
+)
+
+(deflayer mouse2
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ @Ams↑ _ _ _ _ _
+  _ _ _ @mll @mrr _ _ @Ams← @Ams↓ @Ams→ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _
+)
